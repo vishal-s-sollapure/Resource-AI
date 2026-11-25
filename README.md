@@ -170,7 +170,7 @@ python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 - API docs: <http://localhost:8000/docs>
-- Health check: <http://localhost:8000/api/health>
+- Health check: <http://localhost:8000/api/health> (the alias <http://localhost:8000/health> is also available for platform probes).
 
 Expected local demo health response:
 
@@ -314,7 +314,7 @@ Only the local React app, FastAPI backend and JSON demo store are connected and 
 
 ## API surface (summary)
 
-Health/demo: `GET /api/health`, `POST /api/demo/reset` (admin login required).
+Health/demo: `GET /api/health` (also `GET /health`), `POST /api/demo/reset` (admin login required).
 
 Identity/profile: `/api/auth/register`, `/api/auth/login`, `/api/auth/me`, `/api/profile`, `/api/subscription/*`.
 

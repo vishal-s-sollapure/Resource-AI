@@ -17,8 +17,13 @@ app = FastAPI(
     description="AI-powered industrial and agricultural by-product marketplace (hackathon MVP).",
 )
 
+_configured_origins = [
+    origin.strip().rstrip("/")
+    for origin in settings.FRONTEND_URL.split(",")
+    if origin.strip()
+]
 _origins = {
-    settings.FRONTEND_URL,
+    *_configured_origins,
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:3000",
@@ -26,7 +31,7 @@ _origins = {
 app.add_middleware(
     CORSMiddleware,
     allow_origins=sorted(origin for origin in _origins if origin),
-    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$",
+    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$|^https://[a-zA-Z0-9-]+\.vercel\.app$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -42,6 +47,9 @@ def root() -> dict[str, str]:
     return {"name": "ReSource AI", "tagline": "Turn Waste into Business Opportunities.", "docs": "/docs"}
 
 
+# Platforms and monitors commonly probe /health rather than /api/health.
+# Keep both paths on the same handler so a demo deployment is not marked down.
+@app.get("/health", include_in_schema=False)
 @app.get("/api/health")
 def health() -> dict[str, str]:
     store = get_store()

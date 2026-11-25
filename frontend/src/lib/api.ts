@@ -2,7 +2,8 @@
 // VITE_API_BASE_URL to the deployed API URL when frontend and backend are on
 // different origins (for example Vercel frontend + Render backend).
 const DEFAULT_BASE = '/api'
-const BASE = (import.meta.env.VITE_API_BASE_URL || DEFAULT_BASE).replace(/\/$/, '')
+const rawBase = (import.meta.env.VITE_API_BASE_URL || DEFAULT_BASE).trim().replace(/\/+$/, '')
+const BASE = rawBase.endsWith('/api') ? rawBase : `${rawBase}/api`
 const TOKEN_KEY = 'resource_ai_token'
 export const UNAUTHORIZED_EVENT = 'resource-ai:unauthorized'
 
