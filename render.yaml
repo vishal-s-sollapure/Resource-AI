@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: resource-ai-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: APP_ENV
+        value: production
+      - key: TOKEN_SECRET
+        sync: false
+      - key: ALLOW_ANONYMOUS_DEMO
+        value: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.0-flash
+      - key: GOOGLE_PLACES_API_KEY
+        sync: false
+      - key: GOOGLE_MAPS_API_KEY
+        sync: false
+      - key: MATCH_WEIGHT_MATERIAL
+        value: 0.40
+      - key: MATCH_WEIGHT_QUANTITY
+        value: 0.25
+      - key: MATCH_WEIGHT_LOCATION
+        value: 0.20
+      - key: MATCH_WEIGHT_QUALITY
+        value: 0.15
